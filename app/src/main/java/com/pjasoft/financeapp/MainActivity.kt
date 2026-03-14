@@ -40,13 +40,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pjasoft.financeapp.components.ActivityCardItem
+import com.pjasoft.financeapp.components.SummaryCardItem
 import com.pjasoft.financeapp.models.currentUser
+import com.pjasoft.financeapp.models.summaryCards
 import com.pjasoft.financeapp.ui.theme.FinanceAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -88,7 +89,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
                         modifier = Modifier
                             .size(52.dp)
                             .clip(CircleShape)
-                            .background(Color(0xFFE0D7F5)),
+                            .background(Color(0xFFEFE6DD)),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -119,7 +120,32 @@ fun HomeScreen(innerPadding: PaddingValues) {
                     tint = colors.onSecondary
                 )
             }
+            Spacer(modifier = Modifier.height(20.dp))
+
+
         }
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Tarjeta Izquiera
+                Box(modifier = Modifier.weight(1f)) {
+                    ActivityCardItem(card = summaryCards[0])
+                }
+                // Dos tarjetas a la derecha
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    SummaryCardItem(card = summaryCards[1])
+                    SummaryCardItem(card = summaryCards[2])
+                }
+            }
+        }
+
     }
 }
 
