@@ -27,9 +27,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -46,8 +48,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pjasoft.financeapp.components.ActivityCardItem
 import com.pjasoft.financeapp.components.SummaryCardItem
+import com.pjasoft.financeapp.components.TransactionItem
 import com.pjasoft.financeapp.models.currentUser
 import com.pjasoft.financeapp.models.summaryCards
+import com.pjasoft.financeapp.models.transactions
 import com.pjasoft.financeapp.ui.theme.FinanceAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -74,8 +78,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
             .padding(innerPadding)
             .padding(horizontal = 20.dp)
     ) {
-
-        // --- HEADER ---
+        //header
         item {
             Spacer(modifier = Modifier.height(12.dp))
             Row(
@@ -83,7 +86,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Avatar + saludo
+                // Usuario y saludo
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(
                         modifier = Modifier
@@ -93,7 +96,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Person,
+                            imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Avatar",
                             modifier = Modifier.size(32.dp),
                             tint = Color.DarkGray
@@ -128,6 +131,7 @@ fun HomeScreen(innerPadding: PaddingValues) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(280.dp)
                     .padding(top = 24.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -140,12 +144,42 @@ fun HomeScreen(innerPadding: PaddingValues) {
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    SummaryCardItem(card = summaryCards[1])
-                    SummaryCardItem(card = summaryCards[2])
+                    Box(Modifier.weight(1f)) {
+                        SummaryCardItem(card = summaryCards[1])
+                    }
+                    Box(Modifier.weight(1f)) {
+                        SummaryCardItem(card = summaryCards[2])
+                    }
                 }
             }
         }
 
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 28.dp, bottom = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Transactions",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = colors.onSecondary
+                )
+                Text(
+                    text = "See All",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray
+                )
+            }
+        }
+
+        items(transactions) { transaction ->
+            TransactionItem(transaction = transaction)
+            HorizontalDivider(color = Color(0xFFEEEEEE), thickness = 1.dp)
+        }
     }
 }
 
